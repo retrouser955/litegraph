@@ -1,0 +1,32 @@
+import { LGraphNode, type INodeInputSlot } from "litegraph.js";
+import type { GenerationContext } from "../generator/GenerationContext";
+
+export class BaseNode extends LGraphNode {
+    constructor() {
+        super();
+        this.builder();
+    }
+
+    /**
+     * Set the name of the node
+     * @param name the name of the node
+     */
+    setName(name: string) {
+        this.title = name;
+        return this;
+    }
+
+    /**
+     * Called when the node is constructed
+     */
+    builder() {
+        throw new Error('Not implemented');
+    }
+
+    /**
+     * Called when the node is needed to generate code
+     */
+    onGenerateCode(ctx: GenerationContext): string {
+        throw new Error("Not implemented");
+    }
+}
