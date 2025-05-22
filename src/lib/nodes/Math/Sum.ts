@@ -2,6 +2,9 @@ import type { GenerationContext } from "../../generator/GenerationContext";
 import { BaseNode } from "../BaseNode";
 
 export class Sum extends BaseNode {
+    static category: string = "Maths";
+    static title: string = "Sum";
+
     builder(): void {
         this.setName("Sum");
         this.addInput("first", "number");

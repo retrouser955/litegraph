@@ -2,6 +2,9 @@ import type { GenerationContext } from "../../generator/GenerationContext";
 import { BaseNode } from "../BaseNode";
 
 export class NumberNode extends BaseNode {
+    static category: string = "Maths";
+    static title: string = "Number";
+
     builder(): void {
         this.setName("Number");
         this.addOutput("value", "number");

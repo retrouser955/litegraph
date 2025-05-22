@@ -8,21 +8,17 @@ function sortTopologically(graph: LGraph) {
     const sorted: BaseNode[] = [];
 
     function visit(node: BaseNode) {
-        node.pos[0] += 0.01;
-        node.pos[0] -= 0.01;
         if(visited.has(node)) return;
         if(tempMarks.has(node)) return;
 
         tempMarks.add(node);
 
         for(const input of node.inputs || []) {
-            console.log(`processing ${node.title} and its inputs ...`)
-            if(input && input.link) {
-                const link = graph.links[input.link];
-                if(!link) continue;
-                const inputNode = graph.getNodeById(link.id);
-                if(inputNode) visit(inputNode as BaseNode);
-            }
+            if(!input || !input.link) continue;
+            const link = graph.links[input.link];
+            if(!link) continue;
+            const inputNode = graph.getNodeById(link.origin_id);
+            if(inputNode) visit(inputNode as BaseNode);
         }
 
         tempMarks.delete(node);
@@ -33,15 +29,12 @@ function sortTopologically(graph: LGraph) {
     // @ts-expect-error
     (graph._nodes as BaseNode[]).forEach(node => {
         if(!visited.has(node)) visit(node);
-    });
+    })
 
     return sorted;
 }
 
 export function generateCode(graph: LGraph) {
-    graph.updateExecutionOrder();
-    graph.configure(graph.serialize());
-
     const sorted = sortTopologically(graph)
     const context = new GenerationContext();
     let code = "";

@@ -1,10 +1,18 @@
-import { LGraphNode, type INodeInputSlot } from "litegraph.js";
+import { LGraphNode } from "litegraph.js";
 import type { GenerationContext } from "../generator/GenerationContext";
 
 export class BaseNode extends LGraphNode {
     constructor() {
         super();
         this.builder();
+        this.serialize_widgets = true;
+    }
+
+    static category: string;
+    static title: string;
+
+    static buildName() {
+        return `${this.category}/${this.title}`
     }
 
     /**
